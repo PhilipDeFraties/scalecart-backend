@@ -45,5 +45,8 @@ jobs:
           bin/rails db:create
           bin/rails db:migrate # Run migrations to generate schema
 
+      - name: Run RuboCop
+        run: bundle exec rubocop
+
       - name: Run Tests
         run: bin/rails test
