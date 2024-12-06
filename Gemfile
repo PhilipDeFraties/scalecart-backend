@@ -32,7 +32,7 @@ gem "bootsnap", require: false
 gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 6.0.0'
+  gem 'rspec-rails', '~> 7.1.0'
   gem 'faker'
   gem 'dotenv-rails'
   gem 'factory_bot_rails', '~> 6.0'
