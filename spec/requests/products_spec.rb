@@ -10,7 +10,7 @@ RSpec.describe "Products API", type: :request do
 
       expect(response).to have_http_status(:ok)
       body = JSON.parse(response.body)
-      expect(body['success']).to eq(true)
+      expect(body['success']).to be(true)
       expect(body['data'].size).to eq(5)
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(:ok)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(true)
+        expect(body['success']).to be(true)
         expect(body['data']['id']).to eq(product_id)
         expect(body['data']['name']).to eq(products.first.name)
       end
@@ -34,7 +34,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(:not_found)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(false)
+        expect(body['success']).to be(false)
         expect(body['error']).to eq("Couldn't find Product")
       end
     end
@@ -46,13 +46,13 @@ RSpec.describe "Products API", type: :request do
 
     context "with valid attributes" do
       it "creates a new product" do
-        expect {
+        expect do
           post '/products', params: { product: valid_attributes }
-        }.to change(Product, :count).by(1)
+        end.to change(Product, :count).by(1)
 
         expect(response).to have_http_status(:created)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(true)
+        expect(body['success']).to be(true)
         expect(body['data']['name']).to eq("New Product")
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(422)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(false)
+        expect(body['success']).to be(false)
         expect(body['error']).to include("Name can't be blank", "Price must be greater than or equal to 0")
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(:ok)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(true)
+        expect(body['success']).to be(true)
         expect(body['data']['name']).to eq("Updated Product")
         expect(Product.find(product_id).name).to eq("Updated Product")
       end
@@ -91,7 +91,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(:not_found)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(false)
+        expect(body['success']).to be(false)
         expect(body['error']).to eq("Couldn't find Product")
       end
     end
@@ -102,7 +102,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(422)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(false)
+        expect(body['success']).to be(false)
         expect(body['error']).to include("Name can't be blank")
       end
     end
@@ -111,9 +111,9 @@ RSpec.describe "Products API", type: :request do
   describe "DELETE /products/:id" do
     context "when the product exists" do
       it "deletes the product" do
-        expect {
+        expect do
           delete "/products/#{product_id}"
-        }.to change(Product, :count).by(-1)
+        end.to change(Product, :count).by(-1)
 
         expect(response).to have_http_status(:no_content)
       end
@@ -125,7 +125,7 @@ RSpec.describe "Products API", type: :request do
 
         expect(response).to have_http_status(:not_found)
         body = JSON.parse(response.body)
-        expect(body['success']).to eq(false)
+        expect(body['success']).to be(false)
         expect(body['error']).to eq("Couldn't find Product")
       end
     end
