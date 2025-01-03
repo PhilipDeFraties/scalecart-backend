@@ -6,7 +6,7 @@ CategoryProduct.destroy_all
 # Create hierarchical categories
 electronics = Category.create!(name: "Electronics", description: "Devices and gadgets")
 smartphones = Category.create!(name: "Smartphones", description: "Mobile phones", parent_category: electronics)
-laptops = Category.create!(name: "Laptops", description: "Portable computers", parent_category: electronics)
+Category.create!(name: "Laptops", description: "Portable computers", parent_category: electronics)
 
 clothing = Category.create!(name: "Clothing", description: "Apparel and accessories")
 mens_wear = Category.create!(name: "Men's Wear", description: "Clothing for men", parent_category: clothing)
