@@ -90,6 +90,45 @@ bundle exec rspec spec/requests/products_spec.rb
 - **URL**: `DELETE /products/:id`
 - **Description**: Deletes a product by its ID.
 
+## Categories API
+
+### Endpoints
+
+#### 1. Get All Categories
+
+- **URL**: `GET /categories`
+- **Description**: Retrieves all categories in the database.
+- **Request Example**: `curl -X GET http://localhost:3000/categories`
+- **Response Example**: `[{"id": 1, "name": "Electronics", "description": "Devices and gadgets", "parent_id": null, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-01T12:34:56Z"}, {"id": 2, "name": "Smartphones", "description": "Mobile phones", "parent_id": 1, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-01T12:34:56Z"}]`
+
+#### 2. Get a Single Category
+
+- **URL**: `GET /categories/:id`
+- **Description**: Retrieves a specific category by its ID, including subcategories.
+- **Request Example**: `curl -X GET http://localhost:3000/categories/1`
+- **Response Example**: `{"id": 1, "name": "Electronics", "description": "Devices and gadgets", "parent_id": null, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-01T12:34:56Z", "subcategories": [{"id": 2, "name": "Smartphones", "description": "Mobile phones", "parent_id": 1, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-01T12:34:56Z"}]}`
+
+#### 3. Create a Category
+
+- **URL**: `POST /categories`
+- **Description**: Creates a new category.
+- **Request Example**: `curl -X POST http://localhost:3000/categories -H "Content-Type: application/json" -d '{"category": {"name": "New Category", "description": "Category Description", "parent_id": 1}}'`
+- **Response Example**: `{"id": 3, "name": "New Category", "description": "Category Description", "parent_id": 1, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-01T12:34:56Z"}`
+
+#### 4. Update a Category
+
+- **URL**: `PUT /categories/:id`
+- **Description**: Updates an existing category by its ID.
+- **Request Example**: `curl -X PUT http://localhost:3000/categories/1 -H "Content-Type: application/json" -d '{"category": {"name": "Updated Category Name"}}'`
+- **Response Example**: `{"id": 1, "name": "Updated Category Name", "description": "Devices and gadgets", "parent_id": null, "created_at": "2024-12-01T12:34:56Z", "updated_at": "2024-12-02T08:00:00Z"}`
+
+#### 5. Delete a Category
+
+- **URL**: `DELETE /categories/:id`
+- **Description**: Deletes a category by its ID.
+- **Request Example**: `curl -X DELETE http://localhost:3000/categories/1`
+- **Response Example**: `{"message": "Category successfully deleted."}`
+
 ## Deployment Instructions
 
 1. Ensure the database is migrated and seeded in the production environment.
