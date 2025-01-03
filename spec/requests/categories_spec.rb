@@ -42,9 +42,9 @@ RSpec.describe "Categories API", type: :request do
 
     context "with valid attributes" do
       it "creates a new category" do
-        expect {
+        expect do
           post '/categories', params: { category: valid_attributes }
-        }.to change(Category, :count).by(1)
+        end.to change(Category, :count).by(1)
 
         expect(response).to have_http_status(:created)
         body = JSON.parse(response.body)
@@ -102,9 +102,9 @@ RSpec.describe "Categories API", type: :request do
   describe "DELETE /categories/:id" do
     context "when the category exists" do
       it "deletes the category" do
-        expect {
+        expect do
           delete "/categories/#{category_id}"
-        }.to change(Category, :count).by(-1)
+        end.to change(Category, :count).by(-1)
 
         expect(response).to have_http_status(:no_content)
       end
