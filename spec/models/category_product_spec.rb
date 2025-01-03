@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CategoryProduct, type: :model do
-  subject { build(:category_product, category: category, product: product) }
+  subject(:cat_prod) { build(:category_product, category: category, product: product) }
 
   let(:category) { create(:category) }
   let(:product) { create(:product) }
@@ -11,6 +11,6 @@ RSpec.describe CategoryProduct, type: :model do
 
   it "validates uniqueness of category_id scoped to product_id" do
     create(:category_product, category: category, product: product)
-    expect(subject).to validate_uniqueness_of(:category_id).scoped_to(:product_id)
+    expect(cat_prod).to validate_uniqueness_of(:category_id).scoped_to(:product_id)
   end
 end
