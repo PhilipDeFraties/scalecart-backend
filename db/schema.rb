@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_09_181438) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_16_232255) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_181438) do
     t.index ["parent_id"], name: "index_categories_on_parent_id"
   end
 
+  create_table "category_products", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id", "product_id"], name: "index_category_products_on_category_id_and_product_id", unique: true
+    t.index ["category_id"], name: "index_category_products_on_category_id"
+    t.index ["product_id"], name: "index_category_products_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -33,4 +43,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_09_181438) do
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_products_on_name", unique: true
   end
+
+  add_foreign_key "category_products", "categories"
+  add_foreign_key "category_products", "products"
 end
