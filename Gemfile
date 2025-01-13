@@ -38,6 +38,7 @@ group :development, :test do
   gem 'faker'
   gem 'dotenv-rails'
   gem 'factory_bot_rails', '~> 6.0'
+  gem 'pry'
 end
 
 group :development do
