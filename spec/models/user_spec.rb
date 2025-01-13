@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.describe User, type: :model do
   subject { build(:user) }
 
@@ -18,12 +17,9 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_db_column(:updated_at).of_type(:datetime) }
   end
 
-  describe "Associations" do
-  end
-
   describe "Roles" do
     it "assigns a default role if not specified" do
-      user = User.new(email: "test@example.com", password: "password")
+      user = described_class.new(email: "test@example.com", password: "password")
       expect(user.role).to eq("customer")
     end
   end
