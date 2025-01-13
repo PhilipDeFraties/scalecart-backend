@@ -31,6 +31,7 @@ gem "bootsnap", require: false
 
 gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
+gem 'devise-jwt'
 
 group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
