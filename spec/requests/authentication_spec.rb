@@ -6,7 +6,6 @@ RSpec.describe 'Authentication API', type: :request do
   describe 'POST /users/sign_in' do
     context 'with valid credentials' do
       it 'returns a JWT token' do
-        headers = { Accept: 'application/json', 'Content-Type' => 'application/json' }
         post '/users/sign_in', params: { user: { email: user.email, password: user.password } }, headers: { Accept: 'application/json' }
 
         expect(response).to have_http_status(:ok)
@@ -26,9 +25,8 @@ RSpec.describe 'Authentication API', type: :request do
 
     context 'when already logged in' do
       it 'returns a message indicating the user is already logged in' do
-        headers = { Accept: 'application/json', 'Content-Type' => 'application/json' }
         post '/users/sign_in', params: { user: { email: user.email, password: user.password } }, headers: { Accept: 'application/json' }
-        token = JSON.parse(response.body)['token']
+        JSON.parse(response.body)['token']
 
         post '/users/sign_in', params: { user: { email: user.email, password: user.password } }, headers: { Accept: 'application/json' }
 
@@ -43,7 +41,6 @@ RSpec.describe 'Authentication API', type: :request do
   describe 'DELETE /users/sign_out' do
     context 'with a valid JWT token' do
       it 'revokes the JWT token' do
-        headers = { Accept: 'application/json', 'Content-Type' => 'application/json' }
         post '/users/sign_in', params: { user: { email: user.email, password: user.password } }, headers: { Accept: 'application/json' }
 
         token = JSON.parse(response.body)['token']
