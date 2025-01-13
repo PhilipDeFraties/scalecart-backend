@@ -19,9 +19,9 @@ Devise.setup do |config|
   config.reset_password_within = 6.hours
 
   config.sign_out_via = :delete
-
+  config.navigational_formats = []
   config.jwt do |jwt|
-    jwt.secret = Rails.application.secret_key_base
+    jwt.secret = ENV['DEVISE_JWT_SECRET_KEY']
     jwt.dispatch_requests = [
       ['POST', %r{^/users/sign_in$}]
     ]
