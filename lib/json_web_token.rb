@@ -9,9 +9,11 @@ class JsonWebToken
   end
 
   def self.decode(token)
-    decoded = JWT.decode(token, SECRET_KEY, true, algorithm: 'HS256')
-    decoded.first
-  rescue JWT::DecodeError
+    body = JWT.decode(token, SECRET_KEY)[0]
+    return if JwtDenylist.exists?(jti: body['jti'])
+
+    HashWithIndifferentAccess.new(body)
+  rescue JWT::ExpiredSignature, JWT::DecodeError
     nil
   end
 end
