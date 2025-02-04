@@ -28,7 +28,14 @@ class SessionsController < ApplicationController
 
   def authorize_request
     token = request.headers['Authorization']&.split(' ')&.last
-    @current_user = User.find(JsonWebToken.decode(token)['user_id']) if token
+    decoded_token = JsonWebToken.decode(token)
+
+    if decoded_token.nil? || JwtDenylist.exists?(jti: decoded_token['jti'])
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+      return
+    end
+
+    @current_user = User.find(decoded_token['user_id'])
   rescue JWT::DecodeError, JWT::ExpiredSignature, ActiveRecord::RecordNotFound
     render json: { error: 'Unauthorized' }, status: :unauthorized
   end
