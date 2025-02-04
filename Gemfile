@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.2.2"
+gem "rails", "~> 8.0.1"
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
@@ -30,13 +30,13 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem 'bcrypt', '~> 3.1.7'
-gem 'devise'
 
 group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
   gem 'faker'
   gem 'dotenv-rails'
   gem 'factory_bot_rails', '~> 6.0'
+  gem 'pry'
 end
 
 group :development do
