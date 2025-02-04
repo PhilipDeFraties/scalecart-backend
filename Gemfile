@@ -30,18 +30,19 @@ gem "bootsnap", require: false
 # gem "rack-cors"
 
 gem 'bcrypt', '~> 3.1.7'
-gem 'devise'
+gem 'jwt'
 
 group :development, :test do
   gem 'rspec-rails', '~> 6.0.0'
   gem 'faker'
   gem 'dotenv-rails'
   gem 'factory_bot_rails', '~> 6.0'
+  gem 'pry'
 end
 
 group :development do
   gem 'rubocop', '~> 1.49', require: false
-  gem 'rubocop-rails', '~> 2.20', require: false
+  gem 'rubocop-rails', '~> 2.29', require: false
   gem 'rubocop-rspec', require: false
 end
 
