@@ -133,3 +133,61 @@ bundle exec rspec spec/requests/products_spec.rb
 
 1. Ensure the database is migrated and seeded in the production environment.
 2. Deploy the application using your chosen hosting provider, ensuring all environment variables are set.
+
+## Authentication API
+
+### Endpoints
+
+#### 1. User Login
+
+- **URL**: `POST /login`
+- **Description**: Authenticates a user and returns a JWT token.
+- **Request Example**:
+  ```
+   curl -X POST http://localhost:3000/login \
+      -H "Content-Type: application/json" \
+      -d '{"email": "user@example.com", "password": "password123"}'
+  ```
+- **Response Example**:{"token": "eyJhbGciOiJIUzI1NiJ9..."}
+
+#### 2. User Logout
+
+- **URL**: DELETE /logout
+- **Description**: Revokes the user's JWT token.
+  Headers:
+  Authorization: Bearer <JWT_TOKEN>
+- **Request Example**:
+  ```
+     curl -X DELETE http://localhost:3000/logout \
+        -H "Authorization: Bearer <JWT_TOKEN>"
+  ```
+  **Response Example**:
+
+```
+   {
+      "message": "Logged out successfully"
+   }
+```
+
+#### 3. User Registration
+
+- **URL**: POST /users
+- **Description**: Creates a new user account.
+- **Request Example**:
+
+```
+   curl -X POST http://localhost:3000/users \
+      -H "Content-Type: application/json" \
+      -d '{"user": {"email": "newuser@example.com", "password": "password123", "password_confirmation": "password123"}}'
+```
+
+- **Response Example**:
+
+```
+   {
+      "id": 1,
+      "email": "newuser@example.com",
+      "created_at": "2025-01-29T12:00:00Z",
+      "updated_at": "2025-01-29T12:00:00Z"
+   }
+```
