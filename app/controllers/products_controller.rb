@@ -5,13 +5,13 @@ class ProductsController < ApplicationController
   def index
     logger.info "Fetching all products"
     @products = Product.all
-    render_success(@products)
+    render json: { success: true, data: @products }, status: :ok
   end
 
   # GET /products/:id
   def show
     logger.info "Fetching product with ID: #{@product.id}"
-    render_success(@product)
+    render json: { success: true, data: @product }, status: :ok
   end
 
   # POST /products
@@ -20,10 +20,10 @@ class ProductsController < ApplicationController
 
     if @product.save
       logger.info "Product created successfully: #{@product.attributes}"
-      render_success(@product, status: :created)
+      render json: { success: true, data: @product }, status: :created
     else
       logger.warn "Failed to create product: #{@product.errors.full_messages}"
-      render_error(@product.errors.full_messages, status: :unprocessable_entity)
+      render json: { success: false, error: @product.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -31,10 +31,10 @@ class ProductsController < ApplicationController
   def update
     if @product.update(product_params)
       logger.info "Product updated successfully: #{@product.attributes}"
-      render_success(@product)
+      render json: { success: true, data: @product }, status: :ok
     else
       logger.warn "Failed to update product: #{@product.errors.full_messages}"
-      render_error(@product.errors.full_messages, status: :unprocessable_entity)
+      render json: { success: false, error: @product.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -42,7 +42,7 @@ class ProductsController < ApplicationController
   def destroy
     @product.destroy
     logger.info "Product deleted with ID: #{@product.id}"
-    render_success(nil, status: :no_content)
+    render json: { success: true, message: "Product deleted successfully" }, status: :no_content
   end
 
   private
