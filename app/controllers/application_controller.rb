@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     render json: { success: false, error: "Couldn't find #{exception.model}" }, status: :not_found
   end
 
-   def set_csrf_cookie
+  def set_csrf_cookie
     cookies['CSRF-TOKEN'] = form_authenticity_token if protect_against_forgery?
   end
 
