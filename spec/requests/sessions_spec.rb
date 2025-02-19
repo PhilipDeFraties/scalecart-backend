@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe 'Authentication API', type: :request do
+  include ActiveSupport::Testing::TimeHelpers
   let(:user) { create(:user, password: 'password123') }
+  let(:user_b) { create(:user, password: 'password123') }
 
   describe 'POST /login' do
     context 'with valid credentials' do
@@ -19,6 +21,33 @@ RSpec.describe 'Authentication API', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         expect(response.body).to include('Invalid email or password')
+      end
+    end
+
+    context 'when login attempts exceed the limit for an email' do
+      it "returns a too many requests error, but doesn't block other email logins" do
+        headers = { "REMOTE_ADDR" => "1.2.3.4" }
+
+        5.times do
+          post '/login', params: { email: user.email, password: 'password123' }, headers: headers
+        end
+
+        post '/login', params: { email: user_b.email, password: 'password123' }, headers: headers
+        expect(response).to have_http_status(:ok)
+        expect(session[:user_id]).to eq(user_b.id)
+        delete '/logout', headers: headers
+
+        post '/login', params: { email: user.email, password: 'password123' }, headers: headers
+
+        expect(response.body).to include('Too many login attempts. Please try again later.')
+        expect(response).to have_http_status(:too_many_requests)
+
+        travel_to(10.minutes.from_now) do
+          post '/login', params: { email: user.email, password: 'password123' }, headers: headers
+
+          expect(response).to have_http_status(:ok)
+          expect(session[:user_id]).to eq(user.id)
+        end
       end
     end
   end
