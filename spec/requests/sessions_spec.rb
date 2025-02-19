@@ -30,6 +30,12 @@ RSpec.describe 'Authentication API', type: :request do
         5.times do
           post '/login', params: { email: user.email, password: 'password123' }, headers: headers
         end
+
+        post '/login', params: { email: user.email, password: 'password123' }
+        expect(response).to have_http_status(:ok)
+        expect(session[:user_id]).to eq(user.id)
+        delete '/logout'
+
         post '/login', params: { email: user.email, password: 'password123' }, headers: headers
 
         expect(response.body).to include('Too many login attempts. Please try again later.')
