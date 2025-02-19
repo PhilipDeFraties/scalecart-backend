@@ -26,8 +26,7 @@ RSpec.describe 'Authentication API', type: :request do
 
     context 'when login attempts exceed the limit for an email' do
       it "returns a too many requests error, but doesn't block other email logins" do
-        headers = {"REMOTE_ADDR" => "1.2.3.4"}
-        headers_b = {"REMOTE_ADDR" => "4.5.6.7"}
+        headers = { "REMOTE_ADDR" => "1.2.3.4" }
 
         5.times do
           post '/login', params: { email: user.email, password: 'password123' }, headers: headers

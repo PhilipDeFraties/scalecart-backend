@@ -13,7 +13,8 @@ RSpec.describe "Rack::Attack", type: :request do
 
   describe "POST /login" do
     let(:user) { create(:user, password: 'password123') }
-    let(:headers) { {"REMOTE_ADDR" => "1.2.3.4"} }
+    let(:headers) { { "REMOTE_ADDR" => "1.2.3.4" } }
+
     it "successful for 5 requests, then blocks the user nicely" do
       5.times do
         post '/login', params: { email: user.email, password: 'password123' }, headers: headers
