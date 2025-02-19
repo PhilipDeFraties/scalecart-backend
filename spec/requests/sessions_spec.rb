@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Authentication API', type: :request do
   include ActiveSupport::Testing::TimeHelpers
   let(:user) { create(:user, password: 'password123') }
+  let(:user_b) { create(:user, password: 'password123') }
 
   describe 'POST /login' do
     context 'with valid credentials' do
@@ -23,18 +24,19 @@ RSpec.describe 'Authentication API', type: :request do
       end
     end
 
-    context 'when login attempts exceed the limit' do
-      it 'returns a too many requests error' do
+    context 'when login attempts exceed the limit for an email' do
+      it "returns a too many requests error, but doesn't block other email logins" do
         headers = {"REMOTE_ADDR" => "1.2.3.4"}
+        headers_b = {"REMOTE_ADDR" => "4.5.6.7"}
 
         5.times do
           post '/login', params: { email: user.email, password: 'password123' }, headers: headers
         end
 
-        post '/login', params: { email: user.email, password: 'password123' }
+        post '/login', params: { email: user_b.email, password: 'password123' }, headers: headers
         expect(response).to have_http_status(:ok)
-        expect(session[:user_id]).to eq(user.id)
-        delete '/logout'
+        expect(session[:user_id]).to eq(user_b.id)
+        delete '/logout', headers: headers
 
         post '/login', params: { email: user.email, password: 'password123' }, headers: headers
 
