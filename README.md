@@ -147,6 +147,31 @@ curl -X PUT http://localhost:3000/categories/1 -H "Content-Type: application/jso
 - **Request Example**: `curl -X DELETE http://localhost:3000/categories/1`
 - **Response Example**: `{"message": "Category successfully deleted."}`
 
+## Authentication API
+
+### Endpoints
+
+#### 1. Login
+
+- **URL**: `POST /login`
+- **Description**: Authenticates a user and establishes a session.
+- **Request Example**:
+```
+curl -X POST http://localhost:3000/login -H "Content-Type: application/json" -d '{
+ "email": "user@example.com",
+ "password": "password123"
+}'
+```
+-**Response Example**: `{"message": "Logged in successfully"}`
+
+#### 2. Logout
+
+- **URL**: `DELETE /logout`
+- **Description**: Logs out the authenticated user and destroys the session.
+- **Request Example**: `curl -X DELETE http://localhost:3000/logout -b cookies.txt`
+- **Response Example**: `{"message": "Logged out successfully"}`
+
+
 ## Deployment Instructions
 
 1. Ensure the database is migrated and seeded in the production environment.
